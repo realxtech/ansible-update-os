@@ -38,7 +38,7 @@
     tags:
       - updates
   
-  - when: (reboot_required.rc != 0) and ((need_reboot | bool == true) and (need_reboot is defined)) and (force_reboot is undefined)
+  - when: (reboot_required.rc != 0) and ((need_reboot | bool == true) and (need_reboot is defined))
     block:
       - name: Reboot the server if required
         reboot:
