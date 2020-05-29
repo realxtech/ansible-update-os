@@ -1,0 +1,17 @@
+# Variables that must be replaced with their values are indicated in '<>', values are indicated without them.
+# This file is generated in the INI format.
+[all:vars]
+# 
+
+# A method for connecting to nodes to run a script.
+ansible_connection=ssh
+
+[<group_hosts_name>]
+<host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
+<host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
+<host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
+
+[<group_hosts_name>]
+<host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
+<host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
+<host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
