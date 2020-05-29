@@ -37,8 +37,10 @@
     ignore_errors: yes
     tags:
       - updates
-      
-  - name: Check if reboot is required
+             
+  post_tasks:
+  - block:
+    - name: Check if reboot is required
     shell: needs-restarting -r
     changed_when: false
     failed_when: reboot_required.rc not in [0,1]
@@ -61,42 +63,21 @@
            
       - name: Reboot time
         debug:
-          msg: "The system rebooted in {{ reboot_result.elapsed }} seconds."
+          msg: "The system rebooted in {{ reboot_result.elapsed }} seconds."      
     tags:
       - reboot
-        
-  post_tasks:
-  - block:
-      - name: Check if check-updates service exists
-        stat: path="/usr/lib/systemd/system/check-updates.service"
-        register: check_updates_status
-        tags:
-          - check_update
+  
+  - name: Check if check-updates service exists
+    stat: path="/usr/lib/systemd/system/check-updates.service"
+    register: check_updates_status
+    tags:
+      - check_update
 
-      - name: Reload systemd service unit for update motd
-        systemd:
-          name: check-updates.service
-          state: started
-          masked: no
-        when: (check_updates_status.stat.exists == True) and (yum_output.results | length > 0)
-        tags:
-          - check_update
-
-#  - when: (force_reboot | bool == true) and (force_reboot is defined)
-#    block:
-#      - name: Reboot the server if required
-#        reboot:
-#          msg: "Reboot required for updated kernel."
-#          pre_reboot_delay: 10
-#          post_reboot_delay: 15 
-#          connect_timeout: 30
-#          reboot_timeout: 600
-#        ignore_errors: true
-#        changed_when: false
-#        async: 1
-#        poll: 0
-#        register: reboot_result
-   
-#      - name: Reboot time
-#        debug:
-#          msg: "The system rebooted in {{ reboot_result.elapsed }} seconds."
+  - name: Reload systemd service unit for update motd
+    systemd:
+      name: check-updates.service
+      state: started
+      masked: no
+    when: (check_updates_status.stat.exists == True) and (reboot_result is skipped)
+    tags:
+      - check_update
