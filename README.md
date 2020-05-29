@@ -24,7 +24,8 @@ the project pages.
 To clone the current master branch run:
 
 ```
-git clone https://github.com/D34m0nN0n3/ansible-update-os.git
+> cd ~
+> git clone https://github.com/D34m0nN0n3/ansible-update-os.git
 ```
 ### Run Playbook
 To run this playbook, you must:
@@ -36,7 +37,7 @@ An example run with the password of the user under which we connect to the manag
 ```
 bash
 # Go to the project folder:
-> cd ansible-update-os
+> cd ~/ansible-update-os
 # Run playbook:
 > ansible-playbook -i inventory/hosts playbooks/01-main.yml --ask-pass --become --ask-become-pass
 ```
