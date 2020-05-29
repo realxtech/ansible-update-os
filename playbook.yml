@@ -68,7 +68,7 @@
       - reboot
   
   - name: Check if check-updates service exists
-    stat: path="/usr/lib/systemd/system/check-updates.service"
+    stat: path="/etc/systemd/system/check-updates.service"
     register: check_updates_status
     tags:
       - check_update
