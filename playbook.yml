@@ -48,7 +48,7 @@
     block:
       - name: Reboot the server
         reboot:
-          msg: "Reboot {{ ansible.fqdn }}"
+          msg: "Reboot {{ ansible_facts.fqdn }}"
           pre_reboot_delay: 10
           post_reboot_delay: 15 
           connect_timeout: 30
