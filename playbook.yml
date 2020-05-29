@@ -21,8 +21,8 @@
 
   - debug:
       msg: >
-          System updates: {{ yum_output.results | length }} available.
-      when: yum_output.results | length > 0
+          System updates: {{ yum_output.results|length }} available.
+      when: yum_output.results|length > 0
       tags:
         - check_update
       
@@ -71,7 +71,7 @@
           name: check-updates.service
           state: started
           masked: no
-        when: check_updates_status.stat.exists == True and yum_output.results | length > 0
+        when: (check_updates_status.stat.exists == True) and (yum_output.results|length > 0)
         tags:
           - check_update
 
