@@ -52,10 +52,12 @@
         async: 1
         poll: 0
         register: reboot_result
+        when: force_reboot is undefined
    
       - name: Reboot time
         debug:
           msg: "The system rebooted in {{ reboot_result.elapsed }} seconds."
+        when: force_reboot is undefined
 
   post_tasks:
   
