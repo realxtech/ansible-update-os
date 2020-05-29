@@ -14,7 +14,7 @@
     yum:
       list: updates
       update_cache: true
-      security: "{{ security | default(omit, true) }}"
+      security: "{{ security | default(omit) }}"
     register: yum_output
     tags:
       - check_update
@@ -31,9 +31,9 @@
       name: '*'
       state: latest
       update_cache: true
-      security: "{{ security | default(omit, true) }}"
-      exclude: "{{ exclude | default(omit, true) }}"
-      skip_broken: "{{ skip_broken | default(omit, true) }}"
+      security: "{{ security | default(omit) }}"
+      exclude: "{{ exclude | default(omit) }}"
+      skip_broken: "{{ skip_broken | default(omit) }}"
     ignore_errors: yes
     tags:
       - updates
