@@ -1,6 +1,8 @@
 ---
 - hosts: all
-
+  become: true
+  gather_facts: true
+  
   pre_tasks:
   - name: Install yum-utils
     yum:
@@ -27,10 +29,11 @@
   - name: Install security updates
     yum:
       name: '*'
-      security: "{{ security | default(omit, true) }}"
       state: latest
-      exclude: "{{ exclude | default(omit) }}"
-      skip_broken: "{{ skip_broken | default(false) }}"
+      update_cache: true
+      security: "{{ security | default(omit, true) }}"
+      exclude: "{{ exclude | default(omit, true) }}"
+      skip_broken: "{{ skip_broken | default(omit, true) }}"
     ignore_errors: yes
     tags:
       - updates
