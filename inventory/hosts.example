@@ -1,15 +1,25 @@
 # Variables that must be replaced with their values are indicated in '<>', values are indicated without them.
 # This file is generated in the INI format.
 [all:vars]
-# 
+# If a reboot is needed, but it is not required.
+need_reboot=true
 
 # A method for connecting to nodes to run a script.
 ansible_connection=ssh
+
+# First group
+[<group_hosts_name>:vars]
+# Example upgrade all packages, excluding kernel & ansible related packages
+exclude=[ 'kernel*','ansible*' ]
 
 [<group_hosts_name>]
 <host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
 <host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
 <host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
+
+# Second group
+[<group_hosts_name>:vars]
+force_reboot=true
 
 [<group_hosts_name>]
 <host_name> ansible_ssh_host=<host_ip> ansible_ssh_user=<user_name_for_connect>
