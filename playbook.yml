@@ -22,6 +22,7 @@
   - debug:
       msg: >
           System updates: {{ yum_output.results | length }} available.
+    register: check_update
     when: yum_output.results | length > 0
     tags:
       - check_update
@@ -78,6 +79,6 @@
       name: check-updates.service
       state: started
       masked: no
-    when: (check_updates_status.stat.exists == True) and (reboot_result is skipped)
+    when: (check_updates_status.stat.exists == True) and (reboot_result is skipped) and (check_update is succeeded)
     tags:
       - check_update
