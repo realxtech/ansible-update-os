@@ -9,7 +9,7 @@ ansible_connection=ssh
 
 # First group
 [<group_hosts_name>:vars]
-# Example upgrade all packages, excluding kernel & ansible related packages
+# Example upgrade all packages, excluding kernel & ansible related packages.
 exclude=[ 'kernel*','ansible*' ]
 
 [<group_hosts_name>]
@@ -19,6 +19,7 @@ exclude=[ 'kernel*','ansible*' ]
 
 # Second group
 [<group_hosts_name>:vars]
+# If you need to be restarted!!!
 force_reboot=true
 
 [<group_hosts_name>]
