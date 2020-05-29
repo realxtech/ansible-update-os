@@ -40,30 +40,30 @@
              
   post_tasks:
   - block:
-    - name: Check if reboot is required
-    shell: needs-restarting -r
-    changed_when: false
-    failed_when: reboot_required.rc not in [0,1]
-    register: reboot_required
-  
-  - when: ((reboot_required.rc != 0) and ((need_reboot | bool == true) and (need_reboot is defined))) or ((force_reboot | bool == true) and (force_reboot is defined))
-    block:
-      - name: Reboot the server
-        reboot:
-          msg: "Reboot {{ ansible_facts.fqdn }}"
-          pre_reboot_delay: 10
-          post_reboot_delay: 15 
-          connect_timeout: 30
-          reboot_timeout: 600
-        ignore_errors: true
+      - name: Check if reboot is required
+        shell: needs-restarting -r
         changed_when: false
-        async: 1
-        poll: 0
-        register: reboot_result
+        failed_when: reboot_required.rc not in [0,1]
+        register: reboot_required
+  
+      - when: ((reboot_required.rc != 0) and ((need_reboot | bool == true) and (need_reboot is defined))) or ((force_reboot | bool == true) and (force_reboot is defined))
+        block:
+          - name: Reboot the server
+            reboot:
+              msg: "Reboot {{ ansible_facts.fqdn }}"
+              pre_reboot_delay: 10
+              post_reboot_delay: 15 
+              connect_timeout: 30
+              reboot_timeout: 600
+            ignore_errors: true
+            changed_when: false
+            async: 1
+            poll: 0
+            register: reboot_result
            
-      - name: Reboot time
-        debug:
-          msg: "The system rebooted in {{ reboot_result.elapsed }} seconds."      
+          - name: Reboot time
+            debug:
+              msg: "The system rebooted in {{ reboot_result.elapsed }} seconds."      
     tags:
       - reboot
   
