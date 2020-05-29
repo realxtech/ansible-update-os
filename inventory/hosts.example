@@ -10,6 +10,7 @@ ansible_connection=ssh
 # First group
 [<group_hosts_name>:vars]
 # Example upgrade all packages, excluding kernel & ansible related packages.
+security=true
 exclude=[ 'kernel*','ansible*' ]
 
 [<group_hosts_name>]
