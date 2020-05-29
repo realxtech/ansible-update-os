@@ -79,6 +79,6 @@
       name: check-updates.service
       state: started
       masked: no
-    when: (check_updates_status.stat.exists == True) and (reboot_result is skipped) and (check_update is succeeded)
+    when: (check_updates_status.stat.exists == True) and (reboot_result is skipped)
     tags:
       - check_update
