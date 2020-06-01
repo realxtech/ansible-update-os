@@ -8,37 +8,77 @@
     yum:
       name: yum-utils
       state: present
+    when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'
+    
+  - name: Install yum-utils
+    yum:
+      name: yum-utils
+      state: present
+    when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8'
 
   tasks:
-  - name: List updates (yum)
-    yum:
-      list: updates
-      update_cache: true
-      security: "{{ security | default(omit) }}"
-    register: yum_output
-    tags:
-      - check_update
+  - block:
+      - name: List updates (yum)
+        yum:
+          list: updates
+          update_cache: true
+          security: "{{ security | default(omit) }}"
+        register: yum_output
+        tags:
+          - check_update
 
-  - debug:
-      msg: >
-          System updates: {{ yum_output.results | length }} available.
-    register: check_update
-    when: yum_output.results | length > 0
-    tags:
-      - check_update
+      - debug:
+          msg: >
+            System updates: {{ yum_output.results | length }} available.
+        register: check_update
+        when: yum_output.results | length > 0
+        tags:
+          - check_update
       
-  - name: Install updates
-    yum:
-      name: '*'
-      state: latest
-      update_cache: true
-      security: "{{ security | default(omit) }}"
-      exclude: "{{ exclude | default(omit) }}"
-      skip_broken: "{{ skip_broken | default(omit) }}"
-    ignore_errors: yes
-    tags:
-      - updates
-             
+      - name: Install updates
+        yum:
+          name: '*'
+          state: latest
+          update_cache: true
+          security: "{{ security | default(omit) }}"
+          exclude: "{{ exclude | default(omit) }}"
+          skip_broken: "{{ skip_broken | default(omit) }}"
+        ignore_errors: yes
+        tags:
+          - updates
+    when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'
+
+  - block:
+      - name: List updates (yum)
+        dnf:
+          list: updates
+          update_cache: true
+          security: "{{ security | default(omit) }}"
+        register: yum_output
+        tags:
+          - check_update
+
+      - debug:
+          msg: >
+            System updates: {{ yum_output.results | length }} available.
+        register: check_update
+        when: yum_output.results | length > 0
+        tags:
+          - check_update
+      
+      - name: Install updates
+        dnf:
+          name: '*'
+          state: latest
+          update_cache: true
+          security: "{{ security | default(omit) }}"
+          exclude: "{{ exclude | default(omit) }}"
+          skip_broken: "{{ skip_broken | default(omit) }}"
+        ignore_errors: yes
+        tags:
+          - updates
+    when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8'
+
   post_tasks:
   - block:
       - name: Check if reboot is required
