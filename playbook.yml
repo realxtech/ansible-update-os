@@ -30,7 +30,6 @@
       - debug:
           msg: >
             System updates: {{ yum_output.results | length }} available.
-        register: check_update
         when: yum_output.results | length > 0
         tags:
           - check_update
@@ -44,6 +43,7 @@
           exclude: "{{ exclude | default(omit) }}"
           skip_broken: "{{ skip_broken | default(omit) }}"
         ignore_errors: yes
+        register: install_updates
         tags:
           - updates
     when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'
@@ -61,7 +61,6 @@
       - debug:
           msg: >
             System updates: {{ yum_output.results | length }} available.
-        register: check_update
         when: yum_output.results | length > 0
         tags:
           - check_update
@@ -75,6 +74,7 @@
           exclude: "{{ exclude | default(omit) }}"
           skip_broken: "{{ skip_broken | default(omit) }}"
         ignore_errors: yes
+        register: install_updates
         tags:
           - updates
     when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8'
