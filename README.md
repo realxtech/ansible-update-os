@@ -42,7 +42,7 @@ bash
 # Go to the project folder:
 > cd ~/ansible-update-os
 # Run playbook:
-> ansible-playbook -i inventory/hosts playbooks/01-main.yml --ask-pass --become --ask-become-pass
+> ansible-playbook -i inventory/hosts playbook.yml --ask-pass --become --ask-become-pass
 ```
 ##### Ключи
 Key                 |INFO
