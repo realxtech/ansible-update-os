@@ -8,6 +8,15 @@
       register: yum_output
       tags:
         - check_update
+        
+    - name: Output check results
+      debug:
+        msg: "{% set output = [] %}\
+            {% for result in yum_output.results %}\
+              {{ output.append( result.name ~ '-' ~ result.version ~ '-' ~ result.release ) }}\
+            {% endfor %}\
+          {{ output }}"
+      when: (show_updates | bool == true) and (show_updates is defined)
 
     - debug:
         msg: >
