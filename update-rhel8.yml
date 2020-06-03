@@ -34,6 +34,6 @@
         exclude: "{{ exclude | default(omit) }}"
         skip_broken: "{{ skip_broken | default(omit) }}"
       ignore_errors: yes
-      register: install_updates
+      register: dnf_install_updates
       tags:
         - updates
