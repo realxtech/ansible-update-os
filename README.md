@@ -68,9 +68,11 @@ need_reboot   |Перезагрузка желательна, но не обяз
 force_reboot  |Перезагрузка обязательна. *Значение Булево*.
 
 Пример отображения списка доступных обновлений (show_updates):
+
 ![Screenshot](images/check-update.PNG)
 
 Пример отображения информации о времени перезагрузки (need_reboot и force_reboot):
+
 ![Screenshot](images/reboot-time.PNG)
 
 ### Теги
