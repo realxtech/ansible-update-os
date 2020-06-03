@@ -1,0 +1,30 @@
+---
+- block:
+    - name: List updates (yum)
+      yum:
+        list: updates
+        update_cache: true
+        security: "{{ security | default(omit) }}"
+      register: yum_output
+      tags:
+        - check_update
+
+    - debug:
+        msg: >
+          System updates: {{ yum_output.results | length }} available.
+      when: yum_output.results | length > 0
+      tags:
+        - check_update
+      
+    - name: Install updates (yum)
+      yum:
+        name: '*'
+        state: latest
+        update_cache: true
+        security: "{{ security | default(omit) }}"
+        exclude: "{{ exclude | default(omit) }}"
+        skip_broken: "{{ skip_broken | default(omit) }}"
+      ignore_errors: yes
+      register: install_updates
+      tags:
+        - updates
