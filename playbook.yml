@@ -17,69 +17,12 @@
     when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8'
 
   tasks:
-  - block:
-      - name: List updates (yum)
-        yum:
-          list: updates
-          update_cache: true
-          security: "{{ security | default(omit) }}"
-        register: yum_output
-        tags:
-          - check_update
-
-      - debug:
-          msg: >
-            System updates: {{ yum_output.results | length }} available.
-        when: yum_output.results | length > 0
-        tags:
-          - check_update
-      
-      - name: Install updates (yum)
-        yum:
-          name: '*'
-          state: latest
-          update_cache: true
-          security: "{{ security | default(omit) }}"
-          exclude: "{{ exclude | default(omit) }}"
-          skip_broken: "{{ skip_broken | default(omit) }}"
-        ignore_errors: yes
-        register: install_updates
-        tags:
-          - updates
+  - include: update-rhel7.yml
     when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'
 
-  - block:
-      - name: List updates (dnf)
-        dnf:
-          list: updates
-          update_cache: true
-          security: "{{ security | default(omit) }}"
-        register: yum_output
-        tags:
-          - check_update
-
-      - debug:
-          msg: >
-            System updates: {{ yum_output.results | length }} available.
-        when: yum_output.results | length > 0
-        tags:
-          - check_update
-      
-      - name: Install updates (dnf)
-        dnf:
-          name: '*'
-          state: latest
-          update_cache: true
-          security: "{{ security | default(omit) }}"
-          exclude: "{{ exclude | default(omit) }}"
-          skip_broken: "{{ skip_broken | default(omit) }}"
-        ignore_errors: yes
-        register: install_updates
-        tags:
-          - updates
+  - include: update-rhel8.yml
     when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8'
 
-  post_tasks:
   - block:
       - name: Check if reboot is required
         shell: needs-restarting -r
@@ -107,18 +50,20 @@
               msg: "The system rebooted in {{ reboot_result.elapsed }} seconds."      
     tags:
       - reboot
-  
-  - name: Check if check-updates service exists
-    stat: path="/etc/systemd/system/check-updates.service"
-    register: check_updates_status
-    tags:
-      - check_update
 
-  - name: Reload systemd service unit for update motd
-    systemd:
-      name: check-updates.service
-      state: started
-      masked: no
-    when: (check_updates_status.stat.exists == True) and (reboot_result is skipped)
-    tags:
-      - check_update
+  - block: 
+      - name: Check if check-updates service exists
+        stat: path="/etc/systemd/system/check-updates.service"
+        register: check_updates_status
+        tags:
+          - check_update
+
+      - name: Reload systemd service unit for update motd
+        systemd:
+          name: check-updates.service
+          state: started
+          masked: no
+        when: (check_updates_status.stat.exists == True)
+        tags:
+          - check_update
+    when: (reboot_result is skipped)
