@@ -66,4 +66,4 @@
         when: (check_updates_status.stat.exists == True)
         tags:
           - check_update
-    when: (reboot_result is skipped)
+    when: (install_updates is changed) and (reboot_result is skipped)
