@@ -8,7 +8,7 @@
     yum:
       name: yum-utils
       state: present
-    when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7' and ((ansible_distribution_version >= min_release_version is defined) or min_release_version is not defined)
+    when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7' and (min_release_version is undefined or (ansible_distribution_version >= min_release_version is defined))
     
   - name: Install dnf-utils
     dnf:
