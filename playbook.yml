@@ -18,7 +18,7 @@
 
   tasks:
   - include: update-rhel7.yml
-    when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'
+    when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7' and (ansible_distribution_version >= min_release_version and min_release_version is defined) 
 
   - include: update-rhel8.yml
     when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8'
