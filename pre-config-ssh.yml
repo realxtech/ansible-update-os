@@ -16,6 +16,15 @@
 
     - name: Create user
       block:
+        - name: Check mgmt_usr is defined
+          block:
+
+            - debug:
+                msg: Please indicate user name in the variable 'mgmt_usr'
+          always:
+            - meta: end_play
+          when: mgmt_usr is undefined
+
         - local_action:
             set_fact rand_pass="{{ lookup('password', '/dev/null chars=ascii_letters,digits,hexdigits,punctuation length=24') }}"
           run_once: true
@@ -65,7 +74,7 @@
           run_once: true
 
         - local_action:
-            debug msg="Do not forget to save the authentication keys from the <{{ inventory_dir }}> folder in a safe place!"
+            debug msg="Do not forget to save the authentication keys from the <{{ inventory_dir }}> folder in a safe place! PRIVATE KEY -> & PUBLIC KEY -> "
           run_once: true
           when: ssh_pub_path is undefined and ssh_pub_key is defined
       tags:
