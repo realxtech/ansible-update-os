@@ -62,8 +62,8 @@
             key: "{{ ssh_pub_key }}"
           when: not fact_gen_key.skipped or not fact_add_key.skipped
 
-        - debug:
-            msg: "Save your password from mgmt account: {{ rand_pass }}"
-          delegate_to: 127.0.0.1
+        - local_action:
+          debug msg="Save your password from mgmt account':' {{ rand_pass }}"
+          run_once: true
       tags:
         - create_mgmt_usr
