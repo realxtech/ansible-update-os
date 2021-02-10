@@ -58,6 +58,7 @@
             user: "{{ mgmt_usr }}"
             state: present
             key: "{{ ssh_pub_key }}"
+          when: ssh_pub_key is defined
 
         - local_action:
             debug msg="Do not forget to save your account information in a safe place! LOGIN -> {{ mgmt_usr }} & PASSWORD -> {{ rand_pass }}"
@@ -66,6 +67,6 @@
         - local_action:
             debug msg="Do not forget to save the authentication keys from the <{{ inventory_dir }}> folder in a safe place!"
           run_once: true
-          when: ssh_pub_path is undefined
+          when: ssh_pub_path is undefined and ssh_pub_key is defined
       tags:
         - create_mgmt_usr
