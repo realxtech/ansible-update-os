@@ -63,7 +63,12 @@
           when: not fact_gen_key.skipped or not fact_add_key.skipped
 
         - local_action:
-            debug msg="Save your password from mgmt account -> {{ rand_pass }}"
+            debug msg="Do not forget to save your account information in a safe place! LOGIN -> {{ mgmt_usr }} & PASSWORD -> {{ rand_pass }}"
           run_once: true
+
+        - local_action:
+            debug msg="Do not forget to save the authentication keys from the <{{ inventory_dir }}> folder in a safe place!"
+          run_once: true
+          when: not fact_gen_key.skipped
       tags:
         - create_mgmt_usr
