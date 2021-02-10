@@ -64,5 +64,6 @@
 
         - debug:
             msg: "Save your password from mgmt account: {{ rand_pass }}"
+          delegate_to: 127.0.0.1
       tags:
         - create_mgmt_usr
