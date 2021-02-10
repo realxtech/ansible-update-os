@@ -60,3 +60,6 @@
         key: "'{{ ssh_pub_key }}"
       tags:
         - create_mgmt_usr
+
+    - debug:
+        msg: "Save your password from mgmt account: {{ rand_pass }}"
