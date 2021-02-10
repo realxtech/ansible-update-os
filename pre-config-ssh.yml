@@ -18,6 +18,8 @@
       block:
         - set_fact:
             rand_pass: "{{ lookup('password', '/dev/null chars=ascii_letters,digits,hexdigits,punctuation length=24') }}"
+          delegate_to: 127.0.0.1
+          delegate_facts: true
 
         - name: Create mgmt user account
           user:
@@ -46,10 +48,12 @@
 
         - set_fact:
             ssh_pub_key: "{{ lookup('file', '{{ inventory_dir }}/{{ mgmt_usr }}.pub') }}"
+          register: fact_gen_key
           when: gen_openssh_key.changed
 
         - set_fact:
             ssh_pub_key: "{{ lookup('file', '{{ ssh_pub_path }}/*.pub') }}"
+          register: fact_add_key
           when: ssh_pub_path is defined
 
         - name: Add authorized_key took from file
@@ -57,6 +61,7 @@
             user: "{{ mgmt_usr }}"
             state: present
             key: "{{ ssh_pub_key }}"
+          when: not fact_gen_key.skipped or not fact_add_key.skipped
 
         - debug:
             msg: "Save your password from mgmt account: {{ rand_pass }}"
