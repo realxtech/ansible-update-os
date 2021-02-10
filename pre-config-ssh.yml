@@ -74,7 +74,7 @@
           run_once: true
 
         - local_action:
-            debug msg="Do not forget to save the authentication keys from the <{{ inventory_dir }}> folder in a safe place! PRIVATE KEY -> & PUBLIC KEY -> "
+            debug msg="Do not forget to save the authentication keys from the <{{ inventory_dir }}> folder in a safe place! PRIVATE KEY -> {{ mgmt_usr }} & PUBLIC KEY -> {{ mgmt_usr }}.pub"
           run_once: true
           when: ssh_pub_path is undefined and ssh_pub_key is defined
       tags:
