@@ -9,11 +9,8 @@
         - ping
 
     - name: OS version information
-      debug: msg="{{ item }}"
-      with_items:
-      - "{{ ansible_system }}"
-      - "{{ ansible_distribution }}"
-      - "{{ ansible_distribution_version }}"
+      debug:
+        msg: "On host setup {{ ansible_system }} {{ ansible_distribution }} {{ ansible_distribution_version }}"
       tags:
         - info_os
 
@@ -42,10 +39,11 @@
 
         - openssh_keypair:
             path: "{{ inventory_dir }}/id_ssh_rsa"
+          when: ssh_pub_path is undefined
 
         - set_fact:
             ssh_pub_key: "{{ lookup('file', '{{ ssh_pub_path }}') }}"
-          when: ssh_pub_path is defined is defined
+          when: ssh_pub_path is defined
 
         - name: Add authorized_key took from file
           authorized_key:
