@@ -16,10 +16,8 @@
 
     - name: Create user
       block:
-        - set_fact:
-            rand_pass: "{{ lookup('password', '/dev/null chars=ascii_letters,digits,hexdigits,punctuation length=24') }}"
-          delegate_to: 127.0.0.1
-          delegate_facts: true
+        - local_action:
+            set_fact rand_pass="{{ lookup('password', '/dev/null chars=ascii_letters,digits,hexdigits,punctuation length=24') }}"
 
         - name: Create mgmt user account
           user:
