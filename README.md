@@ -1,3 +1,5 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 # Update CentOS/RHEL
 
 Copyright (C) 2019 Dmitriy Prigoda <deamon.none@gmail.com> 
@@ -13,10 +15,14 @@ of the License, but changing it is not allowed.
 --------------------------------------------------
 
 ### Содержание
-1. [Запуск Playbook'а](#запуск-playbookа)
-2. [Дополнительные переменные](#дополнительные-переменные)
-3. [Теги](#теги)
-4. [Documentations ANSIBLE](#documentations-ansible)
+- [Update CentOS/RHEL](#update-centosrhel)
+  - [Установка обновлений CentOS/RHEL с помощью Ansible](#установка-обновлений-centosrhel-с-помощью-ansible)
+    - [Содержание](#содержание)
+    - [Запуск Playbook'а](#запуск-playbookа)
+        - [Ключи](#ключи)
+    - [Дополнительные переменные](#дополнительные-переменные)
+    - [Теги](#теги)
+  - [Documentations ANSIBLE:](#documentations-ansible)
 
 Основная разработка ведется по адресу:
 
@@ -42,7 +48,8 @@ bash
 # Go to the project folder:
 > cd ~/ansible-update-os
 # Run playbook:
-> ansible-playbook -i inventory/hosts playbook.yml --ask-pass --become --ask-become-pass
+> ansible-playbook -i inventory/hosts playbooks/pre-config-ssh.yml --user=<local_user_name> --ask-pass --become
+> ansible-playbook -i inventory/hosts playbook.yml
 ```
 ##### Ключи
 Key                 |INFO
