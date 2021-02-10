@@ -38,7 +38,7 @@
             create: yes
             validate: 'visudo -cf %s'
 
-        - name: Generation OpenSSH key
+        - name: Generate OpenSSH key
           openssh_keypair:
             path: "{{ inventory_dir }}/{{ mgmt_usr }}"
           register: gen_openssh_key
@@ -69,6 +69,6 @@
         - local_action:
             debug msg="Do not forget to save the authentication keys from the <{{ inventory_dir }}> folder in a safe place!"
           run_once: true
-          when: not fact_gen_key.skipped
+          when: fact_gen_key.changed
       tags:
         - create_mgmt_usr
