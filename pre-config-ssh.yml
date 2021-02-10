@@ -60,7 +60,7 @@
             user: "{{ mgmt_usr }}"
             state: present
             key: "{{ ssh_pub_key }}"
-          when: not fact_gen_key.skipped or not fact_add_key.skipped
+          when: (not fact_gen_key.skipped) or (not fact_add_key.skipped)
 
         - local_action:
             debug msg="Do not forget to save your account information in a safe place! LOGIN -> {{ mgmt_usr }} & PASSWORD -> {{ rand_pass }}"
