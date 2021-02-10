@@ -39,13 +39,14 @@
 
         - name: Generation OpenSSH key
           openssh_keypair:
-            path: "{{ inventory_dir }}/id_ssh_rsa"
+            path: "{{ inventory_dir }}/{{ mgmt_usr }}"
           register: gen_openssh_key
           when: ssh_pub_path is undefined
 
         - name: 1
           debug:
             var: gen_openssh_key
+          when: gen_openssh_key.changed
           
 
         - set_fact:
