@@ -86,7 +86,7 @@
         - name: Allows user to execute commands as root
           lineinfile:
             path: "{{ playbook_dir }}/logs/ansible-log.log"
-            regexp: 'Do\snot\sforget\sto\save'
+            regexp: 'Do not forget to save'
             state: absent
           no_log: true
       tags:
