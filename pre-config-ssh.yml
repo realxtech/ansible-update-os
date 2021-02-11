@@ -88,6 +88,5 @@
             path: "{{ playbook_dir }}/logs/ansible-log.log"
             regexp: 'Do not forget to save'
             state: absent
-          no_log: true
       tags:
         - create_mgmt_usr
