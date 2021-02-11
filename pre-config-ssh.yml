@@ -83,10 +83,11 @@
           run_once: true
           when: ssh_pub_path is undefined and ssh_pub_key is defined
 
-        - name: Allows user to execute commands as root
+        - name: Clean secret on log file
           lineinfile:
             path: "{{ playbook_dir }}/logs/ansible-log.log"
             regexp: 'Do not forget to save'
             state: absent
+          run_once: true
       tags:
         - create_mgmt_usr
