@@ -69,11 +69,6 @@
     tags:
       - reboot
       
-  - debug:
-      msg: >
-       System updates: {{ check_update_status_result }} available.
-       Reboot time: {{ reboot_time }} seconds.
-
   - name: Dump hostvars to JSON
     template:
       src: "includes/hostvars.j2"
@@ -85,6 +80,11 @@
   gather_facts: true
 
   post_tasks:
+  - debug:
+      msg: >
+       System updates: {{ check_update_status_result }} available.
+       Reboot time: {{ reboot_time }} seconds.
+  
   - include: includes/report.yml
 
   - name: Check status
