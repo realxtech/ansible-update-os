@@ -5,23 +5,23 @@
         list: updates
         update_cache: true
         security: "{{ security | default(omit) }}"
-      register: yum_output
+      register: check_update_output
       tags:
         - check_update
         
     - name: Output check results
       debug:
         msg: "{% set output = [] %}\
-            {% for result in yum_output.results %}\
+            {% for result in check_update_output.results %}\
               {{ output.append( result.name ~ '-' ~ result.version ~ '-' ~ result.release ) }}\
             {% endfor %}\
           {{ output }}"
       when: (show_updates | bool == true) and (show_updates is defined)
 
-    - debug:
-        msg: >
-          System updates: {{ yum_output.results | length }} available.
-      when: yum_output.results | length > 0
+    - name: fact
+      set_fact:
+        check_update_status_result: "{{ check_update_output.results | length  }}"
+      when: check_update_output.results | length > 0
       tags:
         - check_update
       
