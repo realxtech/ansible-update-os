@@ -26,8 +26,8 @@
     <tbody>
 {% for host in groups['all'] %}
         <tr>
-            <td>{{hostvars[host]['ansible_fqdn']}}</td>
-            <td>{{hostvars[host]['ansible_default_ipv4']['address']}}</td>
+            <td><span data-toggle="tooltip" data-placement="left" class="badge badge-gray-dark">{{ hostvars[host]['ansible_fqdn'] }}</span></td>
+            <td><span data-toggle="tooltip" data-placement="left" class="badge badge-gray">{{ hostvars[host]['ansible_default_ipv4']['address'] }}</span></td>
             <td>
             {% set updates_available = hostvars[host]['check_update_status_result'] %}
             <span class="badge badge-pill badge-info">{{ updates_available }}</span>
