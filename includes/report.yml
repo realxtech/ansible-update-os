@@ -16,3 +16,19 @@
     dest: "{{ playbook_dir }}/Report_updates_{{ report_date }}_{{ random_num }}.html"
   delegate_to: localhost
   run_once: true
+
+- name: Send mail adminvp0
+  mail:
+    host: "{{ mail_host | default(omit) }}"
+    port: "{{ mail_port | default(omit) }}"
+    from: "{{ mail_from | default(omit) }}"
+    to: "{{ admin_mail_rcpt | default(omit) }}"
+    subtype: plain
+    charset: utf8
+    subject: System update report {{ report_date }}
+    attach:
+    - "{{ playbook_dir }}/Report_updates_{{ report_date }}_{{ random_num }}.html"
+    body: Откройте прикрепленный HTML отчет в браузере с поддержкой javascript.
+  delegate_to: localhost
+  run_once: true
+  when: mail_host is defined and mail_port is defined and mail_from is defined and admin_mail_rcpt is defined
