@@ -80,11 +80,6 @@
   gather_facts: true
 
   post_tasks:
-  - debug:
-      msg: >
-       System updates: {{ check_update_status_result }} available.
-       Reboot time: {{ reboot_time }} seconds.
-  
   - include: includes/report.yml
 
   - name: Check status
@@ -104,3 +99,8 @@
         tags:
           - check_update
     when: ((yum_install_updates is changed) or (dnf_install_updates is changed)) and (reboot_result is skipped)
+    
+  - debug:
+      msg: >
+       System updates: {{ check_update_status_result }} packages.
+       Reboot time: {{ reboot_time }} seconds.
