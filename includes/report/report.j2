@@ -30,18 +30,18 @@
             <td>{{hostvars[host]['ansible_default_ipv4']['address']}}</td>
             <td>
             {% set updates_available = hostvars[host]['check_update_status_result'] %}
-            {% if updates_available == '0' %}
-            <span class="badge badge-pill badge-success">{{ updates_available }}</span>
-            {% else %}
-            <span class="badge badge-pill badge-danger">{{ updates_available }}</span>
-            {% endif %}
+            <span class="badge badge-pill badge-info">{{ updates_available }}</span>
             </td>
             <td>
             {% set reboot_sec = hostvars[host]['reboot_time'] %}
-            {% if reboot_sec == '0' %}
-            Not reboot
+            {% if reboot_sec is undefined or reboot_sec == '0' %}
+              {%  if reboot_required.rc == 0 %}
+            <span class="badge badge-pill badge-success">No reboot</span>
+              {%  else %}
+            <span class="badge badge-pill badge-warning">Need reboot</span>
+              {%  endif %}
             {% else %}
-            {{ reboot_sec }} sec.
+            <span class="badge badge-pill badge-info">{{ reboot_sec }} sec.</span>
             {% endif %}
             </td>
         </tr>
