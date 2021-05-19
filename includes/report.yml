@@ -1,0 +1,18 @@
+---
+- set_fact:
+    report_date: "{{ '%Y-%m-%d' | strftime }}"
+  delegate_to: localhost
+  run_once: true
+
+- set_fact:
+    random_num: "{{ lookup('password', '/dev/null chars=hexdigits length=6') }}"
+    cacheable: no
+  delegate_to: localhost
+  run_once: true
+
+- name: Create reports
+  template:
+    src: includes/report/report.j2
+    dest: "{{ playbook_dir }}/Report_updates_{{ report_date }}_{{ random_num }}.html"
+  delegate_to: localhost
+  run_once: true
