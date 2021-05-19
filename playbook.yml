@@ -65,7 +65,7 @@
            
           - set_fact:
               reboot_time: "{{ reboot_result.elapsed }}"
-            delegate_facts: true    
+            delegate_facts: true
     tags:
       - reboot
       
@@ -99,7 +99,19 @@
         tags:
           - check_update
     when: ((yum_install_updates is changed) or (dnf_install_updates is changed)) and (reboot_result is skipped)
-    
+
+  - set_fact:
+      check_update_status_result: '0'
+      cacheable: no
+    delegate_facts: true
+    when: check_update_status_result is undefined
+
+  - set_fact:
+      reboot_time: '0'
+      cacheable: no
+    delegate_facts: true
+    when: reboot_time is undefined
+  
   - debug:
       msg: >
        System updates: {{ check_update_status_result }} packages.
