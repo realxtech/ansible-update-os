@@ -98,7 +98,7 @@
         when: (check_updates_status.stat.exists == True)
         tags:
           - check_update
-    when: ((yum_install_updates is changed) or (dnf_install_updates is changed)) and (reboot_result is skipped)
+    when: (check_updates_reload | bool == true) and (reboot_result is skipped)
 
   - set_fact:
       check_update_status_result: '0'
