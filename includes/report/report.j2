@@ -30,7 +30,11 @@
             <td><span data-toggle="tooltip" data-placement="left" class="badge badge-gray">{{ hostvars[host]['ansible_default_ipv4']['address'] }}</span></td>
             <td>
             {% set updates_available = hostvars[host]['check_update_status_result'] %}
+            {% if updates_available is undefined %}
+            <span class="badge badge-pill badge-success">No updates</span>
+            {% else %}
             <span class="badge badge-pill badge-info">{{ updates_available }}</span>
+            {% endif %}
             </td>
             <td>
             {% set reboot_sec = hostvars[host]['reboot_time'] %}
