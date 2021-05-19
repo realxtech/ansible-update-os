@@ -37,3 +37,8 @@
       register: yum_install_updates
       tags:
         - updates
+
+    - name: fact
+      set_fact:
+        check_updates_reload: "{{ yum_install_updates.changed }}"
+        cacheable: no
