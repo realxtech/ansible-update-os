@@ -7,7 +7,7 @@ This script is free software: Everyone is permitted to copy and distribute verba
 the GNU General Public License as published by the Free Software Foundation, either version 3
 of the License, but changing it is not allowed.
 
- Протестировано на:
+  Протестировано на:
 - CentOS 8 
 - Ansible = 2.9.5
 
